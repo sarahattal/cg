@@ -1,0 +1,41 @@
+{
+    "data": [
+        {
+            "intent": "Advisor",
+            "texts": [
+                "Obviously some products, they tell me no, after you buy a product gift voucher, then take coupons to buy cheap there, what kind of logic",
+                "Multi engage in some discount promotions",
+                "I hope next time to buy liquid foundation, cabinet sister give me face the test equipment that allows me to pick out the most suitable of the Foundation in the Lancome counter",
+                "Concessions activity can improve the look again at",
+                "For example, more targeted products for different skin types",
+                "Why official website Jing pure cream Give ml cream, counters but life and death do not, say do not do this activity?"
+            ]
+        },
+        {
+            "intent": "Loyalty and membership program",
+            "texts": [
+                "Gift to humanity is not nothing compared to the official website online",
+                "Members are not entitled to preferential prices",
+                "Members should be able to receive a monthly sample"
+            ]
+        },
+        {
+            "intent": "Feedback related to store",
+            "texts": [
+                "Package courier attitude is also very satisfied with ah details plus! ! !",
+                "Members are not entitled to preferential prices",
+                "Then put the store, there is a quarrel with the customer service staff, extremely bad attitude",
+                "No reply to the counter for a long time, and finally only one who ignores",
+                "Beijing counters beauty who recommend 'You' with a title - it will also highlight Lancome foundation and advanced."
+            ]
+        },
+        {
+            "intent": "Feedback related to store",
+            "texts": [
+                "Good human services, packaging is very delicate, with a lot of sample",
+                "Soon logistics, product packaging is also very good, important is the product good",
+                "Promotional activities online and offline difference is relatively large. I hope the store a little more experience loaded."
+            ]
+        }
+    ]
+}
