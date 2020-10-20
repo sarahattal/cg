@@ -29,13 +29,15 @@ db = Database(
 
 """Script entry point."""
 
-
+import subprocess
 from routes.queries import queries
 from routes.log import LOGGER
 from routes.functions import check_json_format
 from routes.functions import check_values_request
 from routes.functions import createJsonFile
 from routes.rasa_commnads import trainModel
+from routes.rasa_commnads import parseModel
+from routes.functions import detect_language
 
 
 @app.route("/api/getDataset", methods=['POST'])
@@ -163,7 +165,7 @@ def trainModelmethod():
     else:
         user_id=check['id']
         user=json.loads(db.check_user(user_id))
-        if user['message'] == "No user":
+        if user['message'] == "user not exists":
             return json.dumps("user doesn't exists")
         else:
             languages=[]
@@ -175,10 +177,53 @@ def trainModelmethod():
                 training_examples = createJsonFile(training_examples)
                 print(training_examples)
                 port=db.get_port_per_lan(user_id,language)
-                
                 trainModel(language,training_examples,str(port))
             return "Done"    
 
+
+@ app.route("/api/getClassification", methods=['POST'])
+def getClassification():
+    classifications=[]
+    reqBody = request.get_json()
+    check=json.loads(check_json_format(reqBody))
+    if check['message'] != True:
+        return json.dumps({"message":check['message']}),400
+    else:
+        user_id=check['id']
+        user=json.loads(db.check_user(user_id))
+        if user['message'] == "user not exists":
+            return json.dumps("user doesn't exists")
+        else:
+            messages = reqBody['message']
+            for i in range(len(messages)):
+                language=detect_language(messages[i]).replace('"','')
+                print(language)
+                port=db.get_port_per_lan(user_id,language)
+                print(port)
+                classification=json.loads(parseModel(port,messages[i]))
+                classifications.append(classification)
+            return json.dumps(classifications)
+              
+@app.route("/api/service",methods=['POST'])
+def service():
+    reqBody = request.get_json()
+
+    if not ('id' in reqBody and 'status' in reqBody):
+                return json.dumps("id or status to update key is missing"), 400
+    else:
+        user_id = reqBody['id']
+        status=reqBody['status']
+        user=json.loads(db.check_user(user_id))
+        if user['message'] == "user not exists":
+            return json.dumps("user doesn't exists"),400
+        else:
+            if (status =="stop" or status=="start" or status=="restart"):
+                ports_list=db.get_ports(user_id)
+                for port in ports_list:
+                    val = subprocess.check_call("systemctl --user {} nlp@{}".format(status,port),shell=True)
+                    return val
+                            ##if (val='No') need to be checket with annsible output
+                        
               
 
 if __name__ == "__main__":

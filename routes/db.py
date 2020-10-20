@@ -56,6 +56,7 @@ class Database:
                 
                 cursor.execute(select_query, (user_id,))
                 rowcount = cursor.rowcount
+                print(rowcount)
                 if (rowcount == 0):
                     return json.dumps({"message": "user not exists"})
                 else:
@@ -312,6 +313,7 @@ class Database:
             try:
                 cursor.execute(get_port_per_lan_query, (user_id,language))
                 port=cursor.fetchone()[0]
+                print(port)
                 return port
             except psycopg2.Error as e:
                 cursor.close()
@@ -321,8 +323,28 @@ class Database:
                 self.connect()
                 cursor = self.conn.cursor()
 
+    def get_ports(self,user_id):
+        self.connect()
+        get_ports="Select port from languages where client_id=%s"
+        with self.conn.cursor() as cursor:
+            try:
+                cursor.execute(get_ports, (user_id))
+                ports=cursor.fetchall()
+                ports_list = [item for sublist in ports for item in sublist]
+                return ports_list
+            
+            except psycopg2.Error as e:
+                cursor.close()
+                print(e)
+                return json.dumps({"message": "Server error"})
+            except psycopg2.InterfaceError as exc:
+                self.connect()
+                cursor = self.conn.cursor()
 
-    
+
+
+
+
     def create_user_ports_per_languages(self,clientName):
         self.connect()
         insert_query="Insert into client (client_name) values (%s)"
