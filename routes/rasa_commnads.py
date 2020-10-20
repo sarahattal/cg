@@ -28,22 +28,18 @@ def trainModel(language,training_examples,port):
     }
 
     x = requests.post(url, json=payload)
-    print(x.headers)
-    print(x.headers.get('filename'))
     model_name = x.headers.get('filename')
-    print(model_name)
+    shutil.move("/home/sarahattal/Desktop/models/models/"+model_name,
+                                    "/home/sarahattal/Desktop/models/models/"+str(port)+".tar.gz")
+    model_path = "/home/sarahattal/Desktop/models/models/"+str(port)+".tar.gz"
 
+    print(model_path)
 
-    # shutil.move("/home/sarahattal/models/models/"+model_name,
-    #                                 "/home/sarahattal/models/models/"+str(port)+".tar.gz")
-    # model_path = "/home/sarahattal/models/models/"+str(port)+".tar.gz"
-    # print(model_path)
-
-    # url2 = RASA_ADDRESS+port+PATH_TO_MODEL
-    # payload2 = {
-    #     "model_file": model_path
-    # }
-    # z = requests.put(url2, json=payload2)
-
+    url2 = RASA_ADDRESS+port+PATH_TO_MODEL
+    payload2 = {
+        "model_file": model_path
+    }
+    z = requests.put(url2, json=payload2)
+    print("Hi")
     return "Done"
 

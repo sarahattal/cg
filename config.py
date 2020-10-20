@@ -23,3 +23,4 @@ LANGUAGES=['en','fr','russ','zh','jp']
 RASA_ADDRESS='http://0.0.0.0:'
 PATH_TO_TRAIN='/model/train'
 PATH_TO_MODEL='/model'
+MODEL_LOCATION='/home/sarahattal/Desktop/models/models/'

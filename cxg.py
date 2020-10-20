@@ -776,7 +776,16 @@ def delete():
             return json.dumps({"message": return_message}),status
                 
 
-
+def createJsonFile(training_examples):
+    training_data = {'rasa_nlu_data': {"common_examples": training_examples,
+                                       "regex_features": [],
+                                       "lookup_tables": [],
+                                       "entity_synonyms": []
+                                       }}
+    json_train = json.dumps(training_data,ensure_ascii=False)
+    with open("train_file.json", "w") as jsonfile:
+        jsonfile.write(json_train)
+    return json_train
 
 def check_user2(clientName):
     cursor = db_conn.cursor(cursor_factory=RealDictCursor)

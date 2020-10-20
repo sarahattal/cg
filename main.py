@@ -179,9 +179,6 @@ def trainModelmethod():
                 trainModel(language,training_examples,str(port))
             return "Done"    
 
-
-                    
-
               
 
 if __name__ == "__main__":
